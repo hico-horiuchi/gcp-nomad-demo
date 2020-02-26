@@ -1,0 +1,3 @@
+bind_addr = "{% raw %}{{ GetPrivateInterfaces | include \"network\" \"10.128.0.0/9\" | attr \"address\" }}{% endraw %}"
+data_dir = "/opt/nomad"
+datacenter = "{{ nomad.datacenter }}"

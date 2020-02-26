@@ -1,0 +1,8 @@
+variable "google_config" {
+  default = {
+    credentials = "~/.config/gcloud/application_default_credentials.json"
+    project     = "nomad-demo-abcdefgh"
+    region      = "asia-northeast1"
+    zone        = "asia-northeast1-a"
+  }
+}

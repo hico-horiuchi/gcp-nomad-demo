@@ -1,0 +1,7 @@
+server {
+  bootstrap_expect = 3
+  enabled = true
+  encrypt = "{{ nomad.encrypt }}"
+  job_gc_interval = "{{ nomad.job_gc_interval }}"
+  job_gc_threshold = "{{ nomad.job_gc_threshold }}"
+}

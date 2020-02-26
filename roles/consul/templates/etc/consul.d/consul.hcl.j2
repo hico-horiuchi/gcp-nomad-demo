@@ -1,0 +1,9 @@
+bind_addr = "{% raw %}{{ GetPrivateInterfaces | include \"network\" \"10.128.0.0/9\" | attr \"address\" }}{% endraw %}"
+data_dir = "/opt/consul"
+datacenter = "{{ consul.datacenter }}"
+encrypt = "{{ consul.encrypt }}"
+retry_join = ["provider=gce project_name={{ google.project }} zone_pattern={{ google.region }}-.* tag_value=consul-server"]
+
+performance {
+  raft_multiplier = 1
+}

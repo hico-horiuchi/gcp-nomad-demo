@@ -1,0 +1,47 @@
+---
+- apt:
+    name: unzip
+
+- unarchive:
+    dest: /usr/local/bin
+    remote_src: yes
+    src: 'https://releases.hashicorp.com/consul/{{ consul.version }}/consul_{{ consul.version }}_linux_amd64.zip'
+
+- user:
+    home: /etc/consul.d
+    name: consul
+    shell: /bin/false
+    system: yes
+
+- file:
+    group: consul
+    owner: consul
+    path: '{{ item }}'
+    recurse: yes
+    state: directory
+  with_items:
+    - /etc/consul.d/.config/gcloud
+    - /opt/consul
+
+- template:
+    dest: '/{{ item }}'
+    group: consul
+    owner: consul
+    src: '{{ item }}.j2'
+  with_items:
+    - etc/consul.d/consul.hcl
+    - etc/consul.d/server.hcl
+    - etc/systemd/system/consul.service
+
+- command: systemctl daemon-reload
+
+- copy:
+    dest: /etc/consul.d/.config/gcloud/application_default_credentials.json
+    group: consul
+    owner: consul
+    src: '{{ google.credenetials }}'
+
+- service:
+    enabled: yes
+    name: consul
+    state: restarted

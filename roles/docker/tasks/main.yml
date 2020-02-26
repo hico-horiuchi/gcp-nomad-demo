@@ -1,0 +1,23 @@
+---
+- apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+
+- apt_key:
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    url: https://download.docker.com/linux/ubuntu/gpg
+
+- apt_repository:
+    repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable'
+
+- apt:
+    name: docker-ce
+    update_cache: yes
+
+- service:
+    enabled: yes
+    name: docker
+    state: restarted

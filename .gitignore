@@ -1,0 +1,11 @@
+*#*
+*.retry
+*~
+.*.swp
+.DS_Store
+/.terraform
+/group_vars/all.yml
+/hosts
+/terraform.tfstate*
+/variables.tf
+/venv

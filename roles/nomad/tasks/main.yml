@@ -1,0 +1,31 @@
+---
+- apt:
+    name: unzip
+
+- unarchive:
+    dest: /usr/local/bin
+    remote_src: yes
+    src: 'https://releases.hashicorp.com/nomad/{{ nomad.version }}/nomad_{{ nomad.version }}_linux_amd64.zip'
+
+- file:
+    path: '{{ item }}'
+    state: directory
+  with_items:
+    - /etc/nomad.d
+    - /opt/nomad
+
+- template:
+    dest: '/{{ item }}'
+    src: '{{ item }}.j2'
+  with_items:
+    - etc/nomad.d/client.hcl
+    - etc/nomad.d/nomad.hcl
+    - etc/nomad.d/server.hcl
+    - etc/systemd/system/nomad.service
+
+- command: systemctl daemon-reload
+
+- service:
+    enabled: yes
+    name: nomad
+    state: restarted

@@ -1,0 +1,24 @@
+---
+- become: yes
+  hosts:
+    - nomad_servers
+  roles:
+    - docker
+  tags:
+    - docker
+
+- become: yes
+  hosts:
+    - consul_servers
+  roles:
+    - consul
+  tags:
+    - consul
+
+- become: yes
+  hosts:
+    - nomad_servers
+  roles:
+    - nomad
+  tags:
+    - nomad
