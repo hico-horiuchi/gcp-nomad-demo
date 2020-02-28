@@ -1,3 +1,9 @@
+terraform {
+  backend "gcs" {
+    bucket = "nomad-demo-terraform-state"
+  }
+}
+
 provider "google" {
   credentials = file(lookup(var.google_config, "credentials"))
   project     = lookup(var.google_config, "project")
@@ -28,6 +34,15 @@ data "template_file" "hosts" {
 
 resource "random_id" "encrypt" {
   byte_length = 32
+}
+
+resource "google_storage_bucket" "terraform_state" {
+  location = lookup(var.google_config, "region")
+  name     = "nomad-demo-terraform-state"
+
+  versioning {
+    enabled = true
+  }
 }
 
 resource "google_compute_network" "nomad_network" {
