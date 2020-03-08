@@ -13,7 +13,19 @@
   roles:
     - consul
   tags:
+    - consul_server
+  vars:
+    consul_role: server
+
+- become: yes
+  hosts:
+    - consul_clients
+  roles:
     - consul
+  tags:
+    - consul_client
+  vars:
+    consul_role: client
 
 - become: yes
   hosts:
@@ -21,4 +33,16 @@
   roles:
     - nomad
   tags:
+    - nomad_server
+  vars:
+    nomad_role: server
+
+- become: yes
+  hosts:
+    - nomad_clients
+  roles:
     - nomad
+  tags:
+    - nomad_client
+  vars:
+    nomad_role: client

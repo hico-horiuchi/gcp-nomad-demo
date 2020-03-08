@@ -27,8 +27,10 @@ data "template_file" "hosts" {
   template = file("hosts.tpl")
 
   vars = {
-    nomad_servers  = join("\n", google_compute_instance.nomad_server.*.network_interface.0.access_config.0.nat_ip)
-    consul_servers = join("\n", google_compute_instance.nomad_server.*.network_interface.0.access_config.0.nat_ip)
+    consul_servers = join("\n", [for x in google_compute_instance.nomad_server: x.network_interface.0.access_config.0.nat_ip if contains(x.tags, "consul-server")])
+    consul_clients = join("\n", [for x in google_compute_instance.nomad_server: x.network_interface.0.access_config.0.nat_ip if contains(x.tags, "consul-client")])
+    nomad_servers  = join("\n", [for x in google_compute_instance.nomad_server: x.network_interface.0.access_config.0.nat_ip if contains(x.tags, "nomad-server")])
+    nomad_clients  = join("\n", [for x in google_compute_instance.nomad_server: x.network_interface.0.access_config.0.nat_ip if contains(x.tags, "nomad-client")])
   }
 }
 
@@ -104,7 +106,7 @@ resource "google_compute_instance" "nomad_server" {
   count        = 3
   name         = format("nomad-server-%02d", count.index + 1)
   machine_type = "n1-standard-1"
-  tags         = ["consul-server", "nomad-server"]
+  tags         = ["consul-server", "consul-client", "nomad-server", "nomad-client"]
 
   boot_disk {
     initialize_params {

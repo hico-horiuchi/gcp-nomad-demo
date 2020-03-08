@@ -29,8 +29,8 @@
     owner: consul
     src: '{{ item }}.j2'
   with_items:
+    - 'etc/consul.d/{{ consul_role }}.hcl'
     - etc/consul.d/consul.hcl
-    - etc/consul.d/server.hcl
     - etc/systemd/system/consul.service
 
 - command: systemctl daemon-reload
