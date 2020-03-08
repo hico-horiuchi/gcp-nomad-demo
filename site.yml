@@ -1,6 +1,14 @@
 ---
 - become: yes
   hosts:
+    - all
+  roles:
+    - common
+  tags:
+    - common
+
+- become: yes
+  hosts:
     - nomad_servers
   roles:
     - docker

@@ -1,0 +1,6 @@
+---
+- apt:
+    autoclean: yes
+    autoremove: yes
+    update_cache: yes
+    upgrade: dist
