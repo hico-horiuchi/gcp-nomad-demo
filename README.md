@@ -37,4 +37,6 @@ $ ansible-playbook -i hosts site.yml
 ```
 $ nomad run traefik.nomad
 $ nomad run webapp.nomad
+$ nomad run ruby.nomad
+$ nomad job dispatch -meta "slack_incoming_webhook_url=https://hooks.slack.com/services/ABCDEFGHI/JKLMNOPQR/abcdefghijklmnopqrstuvwx" ruby script.rb
 ```
